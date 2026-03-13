@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handmate Vocal Looper</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- MediaPipe for hand tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3/hands.js" crossorigin="anonymous"></script>
+    
+    <!-- Tone.js for audio synthesis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Video Feed & Gesture Display -->
+        <div class="container">
+            <video class="input_video"></video>
+            <div class="canvas-container">
+                <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-header">
+                <h1>🎤 Vocal Looper</h1>
+                <button id="toggleBtn">Collapse</button>
+            </div>
+
+            <!-- Status Display -->
+            <div class="status-section">
+                <div class="status-item">
+                    <label>FPS</label>
+                    <span id="fps">0</span>
+                </div>
+                <div class="status-item">
+                    <label>Gesture</label>
+                    <span id="gesture">Ready</span>
+                </div>
+                <div class="status-item">
+                    <label>BPM</label>
+                    <span id="bpmDisplay">120</span>
+                </div>
+                <div class="status-item">
+                    <label>Recording</label>
+                    <span id="recordStatus">Off</span>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Camera Settings -->
+            <div class="settings-group">
+                <h3>Camera</h3>
+                <label>
+                    <input type="checkbox" id="selfie" checked>
+                    Selfie Mode
+                </label>
+                <label>
+                    <input type="checkbox" id="showTracking" checked>
+                    Show Hand Tracking
+                </label>
+                <div class="select">
+                    <label for="videoSource">Source:</label>
+                    <select id="videoSource"></select>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Microphone & Recording -->
+            <div class="settings-group">
+                <h3>🎙️ Vocal Recording</h3>
+                <label>
+                    <input type="checkbox" id="micEnabled">
+                    Enable Microphone
+                </label>
+                <label>
+                    Mic Volume:
+                    <input type="range" id="micVolume" min="0" max="100" value="80">
+                </label>
+                <button class="btn-danger" id="clearLoops">Clear All Loops</button>
+            </div>
+
+            <hr>
+
+            <!-- Tempo Control -->
+            <div class="settings-group">
+                <h3>⏱️ Tempo</h3>
+                <label>
+                    BPM:
+                    <input type="number" id="bpmInput" min="40" max="300" value="120">
+                </label>
+            </div>
+
+            <hr>
+
+            <!-- Drum Sounds -->
+            <div class="settings-group">
+                <h3>🥁 Drums</h3>
+                <div class="drum-buttons">
+                    <button class="drum-btn" data-drum="kick">Kick</button>
+                    <button class="drum-btn" data-drum="snare">Snare</button>
+                    <button class="drum-btn" data-drum="hihat">Hi-Hat</button>
+                    <button class="drum-btn" data-drum="tom">Tom</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Synth Keys -->
+            <div class="settings-group">
+                <h3>🎹 Synth</h3>
+                <div class="synth-buttons">
+                    <button class="key-btn" data-note="C4">C</button>
+                    <button class="key-btn" data-note="D4">D</button>
+                    <button class="key-btn" data-note="E4">E</button>
+                    <button class="key-btn" data-note="F4">F</button>
+                    <button class="key-btn" data-note="G4">G</button>
+                    <button class="key-btn" data-note="A4">A</button>
+                    <button class="key-btn" data-note="B4">B</button>
+                    <button class="key-btn" data-note="C5">C5</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Gesture Guide -->
+            <div class="gesture-guide">
+                <h3>👋 Hand Gestures</h3>
+                <div class="gesture-item">
+                    <span class="gesture-name">Closed Fist</span>
+                    <span class="gesture-desc">Record Loop</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-name">Open Hand</span>
+                    <span class="gesture-desc">Play Loops</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-name">Thumb Up</span>
+                    <span class="gesture-desc">Increase Vol</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-name">Thumb Down</span>
+                    <span class="gesture-desc">Decrease Vol</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="gesture-name">Peace Sign</span>
+                    <span class="gesture-desc">Toggle Synth</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Elements -->
+    <audio id="loopAudio" crossOrigin="anonymous"></audio>
+
+    <script src="audio-engine.js"></script>
+    <script src="gesture-recognition.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
