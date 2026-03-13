@@ -1,0 +1,51 @@
+.vocal-looper {
+    /* Main container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #282c34;
+    height: 100vh;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+.button {
+    /* Button styles */
+    background-color: #61dafb;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #21a1f1;
+}
+
+.slider {
+    /* Slider styles */
+    width: 300px;
+    margin: 20px;
+}
+
+.display {
+    /* Display styles */
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.footer {
+    /* Footer styles */
+    margin-top: auto;
+    font-size: 14px;
+}
